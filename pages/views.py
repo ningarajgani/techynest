@@ -21,6 +21,7 @@ from django.conf import settings
 import json
 
 
+
 # Create your views here.
 # @login_required(login_url='login')
 def home(request):
