@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Added for static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,7 +57,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'template'],  # Adjusting the template directory path
-        'APP_DIRS': True,  # Changed to True to allow app template loading
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -74,6 +75,9 @@ WSGI_APPLICATION = 'gadgets.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Uncomment your database settings based on your environment:
+
+# SQLite (for local development)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -81,14 +85,14 @@ WSGI_APPLICATION = 'gadgets.wsgi.application'
 #     }
 # }
 
-
+# MySQL (for production)
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql', 
+#         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'technestle_db',
 #         'USER': 'root',
 #         'PASSWORD': '',
-#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+#         'HOST': 'localhost',
 #         'PORT': '3306',
 #     }
 # }
@@ -110,8 +114,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -128,24 +132,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Directory where you store your static files during development
-]
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory where static files will be collected
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Use WhiteNoise to serve static files in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# payment gateway
-
+# Payment gateway settings
 RAZORPAY_API_KEY = 'rzp_test_YJMW1NlshlP87M'
 RAZORPAY_API_SECRET = 'UsQgWH3g2aPlOujDHWUJJ32a'
 
-
+# Deployment settings
+if os.getenv('VERCEL'):
+    ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
