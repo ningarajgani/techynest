@@ -1,16 +1,3 @@
-#!/bin/bash
-
-# Install dependencies
+# build_files.sh
 pip install -r requirements.txt
-
-# Run migrations
-python manage.py migrate
-
-# Collect static files
-python manage.py collectstatic --noinput
-
-# Create output directory
-mkdir -p staticfiles_build
-
-# Move static files
-cp -r staticfiles/ staticfiles_build/
+python3.12.4 manage.py collectstatic

@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-r%nn4!p6)4feubwzjd0!=l=aiugjb%$!%nqedtnf*1#x(!_$x5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
 
 # Application definition
 
@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'gadgets.urls'
+ROOT_URLCONF = 'versel_deploymet.urls'
 
 TEMPLATES = [
     {
@@ -86,16 +86,16 @@ WSGI_APPLICATION = 'gadgets.wsgi.application'
 # }
 
 # MySQL (for production)
-DATABASES = {
-    'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'technestle_db',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mysql.connector.django',
+#         'NAME': 'technestle_db',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation
